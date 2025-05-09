@@ -9,9 +9,21 @@ app = Flask(__name__)
 CORS(app)
 
 # Параметри бази даних
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:prhFZETaRWzNFGMcYAyClmmhdinUsKYv@gondola.proxy.rlwy.net:17227/Xmara"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:prhFZETaRWzNFGMcYAyClmmhdinUsKYv@gondola.proxy.rlwy.net:17227/Xmara"
+#app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+#db = SQLAlchemy(app)
+
+username = os.environ.get("PG_USERNAME", "postgres")
+password = os.environ.get("PG_PASSWORD", "fwlfRNjiGQSMWhLONHRWNHbbqNHrylCy")
+database_name = os.environ.get("DATABASE_NAME", "railway")
+
+#app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+pg8000://{username}:{password}@postgresql://postgres:fwlfRNjiGQSMWhLONHRWNHbbqNHrylCy@mainline.proxy.rlwy.net:25115/railway:5432/{database_name}"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:fwlfRNjiGQSMWhLONHRWNHbbqNHrylCy@mainline.proxy.rlwy.net:25115/railway"
+app.config["SQLALCHEMY_BINDS"] = {f"{database_name}": app.config["SQLALCHEMY_DATABASE_URI"]}
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
+#db.init_app(app)
 
 # ======== МОДЕЛІ =========
 
